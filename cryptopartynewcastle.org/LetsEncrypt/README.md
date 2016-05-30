@@ -28,7 +28,7 @@ Now, we need to add the following lines to our `nginx.conf`, within our SSL serv
 </pre>
 
 
-#### Notes for Grsec/Pax systems
+#### Notes for Grsec/Pax kernels
 If you are running a [Grsecurity-patched](https://grsecurity.net/) kernel, then MPROTECT will need to be disabled on some of the binaries pulled in by the LetsEncrypt client.
 
 Ensure that you have the `attr` package installed, and then run the following commands:
