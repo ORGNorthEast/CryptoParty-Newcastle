@@ -63,7 +63,7 @@ Ensure that our `RAILS_ENV` environment variable is set to `production` in the c
 <pre>export RAILS_ENV=production</pre>
 
 ...and in all future shells
-<pre>echo "export RAILS_ENV=production" > .bashrc</pre>
+<pre>echo "export RAILS_ENV=production" >> .bashrc</pre>
 
 Enter Crabgrass dir and install bundle:
 <pre>cd crabgrass/ && bundle install</pre>
@@ -77,8 +77,8 @@ username: crabgrass
 password: database_password_from_before
 </pre>
 
-Fix a possible future error where `rake` can't find `crabgrass.production.yml`:
-<pre>touch config/crabgrass/crabgrass.production.yml</pre>
+Copy an example production config to use for our configuration file:
+<pre>cp config/crabgrass/crabgrass.production.example.yml config/crabgrass/crabgrass.production.yml</pre>
 
 Create a secret:
 <pre>rake create_a_secret</pre>
@@ -104,8 +104,8 @@ If you are using a Grsec kernel and opted to manually compile Passenger into you
 To fix the above error, run:
 <pre>sudo /var/lib/gems/2.1.0/gems/passenger-5.0.28/bin/passenger-config compile-agent</pre>
 
-#### Test
-*This section assumes you have set up your Nginx config accordingly. (See the `Nginx` directory in this repo for more info and my example config.)
+#### Test Crabgrass is Working
+*This section assumes you have already set up your `nginx.conf` file accordingly. (See the `Nginx` directory in this repo for more info and my example config.)*
 
 Logout of the `www-data` user:
 <pre>exit</pre>
