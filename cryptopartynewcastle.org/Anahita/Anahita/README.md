@@ -1,3 +1,5 @@
+# Installing Anahita on Nginx
+
 #### Log in as webserver user
 Change the shell of the `www-data` user to allow us to login:
 <pre>sudo nano /etc/passwd</pre>

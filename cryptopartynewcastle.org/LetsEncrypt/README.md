@@ -22,10 +22,10 @@ Move the public leaf cert to our keys directory (Note that your generated certif
 <pre>sudo mv -f -v $HOME/certbot/0001_chain.pem /usr/share/nginx/keys/ecdsa-chain.pem</pre>
 
 Now, we need to add the following lines to our `nginx.conf`, within our SSL server block, so that Nginx knows where to find our public certificate and corresponding private key:
-<pre>
+```nginx
 		ssl_certificate		/usr/share/nginx/keys/ecdsa-chain.pem;
 		ssl_certificate_key	/usr/share/nginx/keys/privkey-p384.pem;
-</pre>
+```
 
 
 #### Notes for Grsec/Pax kernels
