@@ -1,0 +1,16 @@
+# This file tracks the current stable release by name ('jessie') rather
+# than by the generic 'stable' identifier. This avoids any nasty surprises
+# when stretch moves from 'testing' to 'stable' and a new repo is created under
+# the 'stable' codename.
+
+deb tor://deb.torproject.org/torproject.org jessie main
+deb-src tor://deb.torproject.org/torproject.org jessie main
+
+deb tor://vwakviie2ienjx6t.onion/debian jessie main contrib
+deb-src tor://vwakviie2ienjx6t.onion/debian jessie main contrib
+
+deb tor://vwakviie2ienjx6t.onion/debian jessie-updates main contrib
+deb-src tor://vwakviie2ienjx6t.onion/debian jessie-updates main contrib
+
+deb tor://security.debian.org/ jessie/updates main contrib
+deb-src tor://security.debian.org/ jessie/updates main contrib

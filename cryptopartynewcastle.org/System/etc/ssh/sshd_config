@@ -1,0 +1,68 @@
+# Ensure we are using SSH v2 on a non-standard port
+Protocol 2
+Port	 43870
+
+# Listen on all addresses
+ListenAddress	0.0.0.0
+ListenAddress	::
+
+# Only allow users we want
+AllowUsers		party
+PermitRootLogin		no
+
+# Disable password authentication and only permit public key authentication
+PasswordAuthentication no
+PermitEmptyPasswords	no
+RSAAuthentication	yes
+PubkeyAuthentication	yes
+
+# LogLevel VERBOSE logs user's key fingerprint on login. Needed to have a clear audit track of which key was using to log in.
+LogLevel VERBOSE
+
+# Disable other forms of authentication I don't want
+ChallengeResponseAuthentication	no
+KerberosAuthentication		no
+GSSAPIAuthentication		no
+
+# X11 forwarding is also not wanted on a server with no GUI
+X11Forwarding	no
+
+# Log sftp level file access (read/write/etc.) that would not be easily logged otherwise.
+Subsystem sftp /usr/lib/openssh/sftp-server -f AUTHPRIV -l INFO
+
+# Use kernel sandbox mechanisms where possible in unprivilegied processes
+# Systrace on OpenBSD, Seccomp on Linux, seatbelt on MacOSX/Darwin, rlimit elsewhere.
+UsePrivilegeSeparation sandbox
+
+# Key Exchange
+	# Only support Curve25519
+	KexAlgorithms	curve25519-sha256@libssh.org
+
+# Encryption Ciphers
+	# ChaCha is preferred over AES-GCM because the SSH protocol does not encrypt message sizes when GCM is in use, which allows for some
+	# traffic analysis even without decrypting the data. (It's also preferred because ChaCha is faster on a system without AES-NI like this one).
+	Ciphers		chacha20-poly1305@openssh.com,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+
+# Server Authentication
+	# We're not using ECDSA here because it can currently only be used with NIST-defined curves (for now). For more info, see: https://security.stackexchange.com/a/46781.
+	# Generate this server authentication key as follows:
+	#     cd /etc/ssh
+	#     rm ssh_host_*key*
+	#     ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
+	HostKey	/etc/ssh/ssh_host_ed25519_key
+
+# Message Authentication Codes
+	MACs	hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+
+# Misc defaults imported from the sshd_config file that ships with Debian Jessie
+UsePrivilegeSeparation	yes
+SyslogFacility		AUTH
+LogLevel		INFO
+LoginGraceTime		120
+StrictModes		yes
+IgnoreRhosts		yes
+PrintMotd		no
+PrintLastLog		yes
+TCPKeepAlive		yes
+AcceptEnv		LANG LC_*
+UsePAM			yes

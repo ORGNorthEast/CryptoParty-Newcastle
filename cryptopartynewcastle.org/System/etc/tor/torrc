@@ -1,0 +1,47 @@
+# Process settings
+DataDirectory /var/lib/tor
+Log notice file /var/log/tor/notices.log
+
+# Write various statistics to DataDirectory
+CellStatistics 1
+DirReqStatistics 1
+EntryStatistics 1
+ExitPortStatistics 1
+ExtraInfoStatistics 1
+
+# Run as a client locally to proxy Apt traffic
+SocksPort 9050
+
+# Define relaying and directory features
+ORPort 9001 #This can be a different port, but some are not allowed unless running as root, and some will be reserved. for other applications
+DirPort 9030 #It's hard to predict how much bandwidth mirroring the relay directory will use, but do it anyway.
+
+# Exit options
+Exitpolicy reject *:* #No exit traffic allowed
+
+# Provide relay info
+Address orgnortheast2.alexhaydock.co.uk #Specify DNS address of server, despite this not strictly being required.
+Nickname ORGNorthEast2
+ContactInfo Alex Haydock <alex@alexhaydock.co.uk>
+MyFamily $FDF845FC159C0020E2BDDA120C30C5C5038F74B4,$A37B688506860287562C448A6F2BB965BCAB0355,$0E1E1140B3D4301B353053F961417CE7812F10C1
+
+# Define relay bandwidth limits
+RelayBandwidthRate 10 MBytes #Throttle traffic to 10MB/s (80Mbps).
+RelayBandwidthBurst 12 MBytes #But allow bursting up to 12MB/s (96Mbps).
+
+# Define relay traffic limits
+AccountingMax 32 TB #Allow a max of 32TB in and out (total monthly allowance will be 64TB).
+AccountingStart month 1 00:00 #Bandwidth counter begins counting on the first day of each month at 00:00.
+
+# Increase compatibility with "Arm" relay-status viewer
+DisableDebuggerAttachment 0
+ControlPort 9051
+CookieAuthentication 1 #Allow the 'toranon' user to access Tor process via ControlPort. Adds a small amount of security.
+
+# Performance tweaks
+NumCPUs 1 #Improve threading for multi-core systems (currently set to 1 for single-core system).
+HardwareAccel 1 #Look for hardware crypto acceleration, if available.
+
+# Define hidden service
+HiddenServiceDir /var/lib/tor/cryptopartynewcastle/
+HiddenServicePort 80 127.0.0.1:8080
