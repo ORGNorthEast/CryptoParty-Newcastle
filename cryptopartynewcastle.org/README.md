@@ -1,4 +1,6 @@
 ### Server Config Transparency Notes
+This is the server config for https://cryptopartynewcastle.org/ (also available at http://nclcrypto2bfuejv.onion/)
+
 Debian Jessie installed as host OS.
 
 Created `party` user to manage the host:
