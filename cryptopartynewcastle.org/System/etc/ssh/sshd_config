@@ -1,18 +1,19 @@
 # Ensure we are using SSH v2 on a non-standard port
 Protocol 2
-Port	 43870
+Port	 45498
 
 # Listen on all addresses
 ListenAddress	0.0.0.0
 ListenAddress	::
 
-# Only allow users we want
-AllowUsers		party
+# Permit password authentication with non-blank passwords and only for the users we want
+# (I would prefer to use pubkey auth only, but this host has no kvm/console override if something goes wrong)
+AllowUsers		cryptoparty
 PermitRootLogin		no
-
-# Disable password authentication and only permit public key authentication
-PasswordAuthentication no
+PasswordAuthentication	yes
 PermitEmptyPasswords	no
+
+# Also permit public key authentication
 RSAAuthentication	yes
 PubkeyAuthentication	yes
 
@@ -39,9 +40,8 @@ UsePrivilegeSeparation sandbox
 	KexAlgorithms	curve25519-sha256@libssh.org
 
 # Encryption Ciphers
-	# ChaCha is preferred over AES-GCM because the SSH protocol does not encrypt message sizes when GCM is in use, which allows for some
-	# traffic analysis even without decrypting the data. (It's also preferred because ChaCha is faster on a system without AES-NI like this one).
-	Ciphers		chacha20-poly1305@openssh.com,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+	# Support ChaCha only because of GCM weaknesses (https://www.cryptologie.net/article/361/nonce-disrespecting-adversaries-practical-forgery-attacks-on-gcm-in-tls/)
+	Ciphers		chacha20-poly1305@openssh.com
 
 # Server Authentication
 	# We're not using ECDSA here because it can currently only be used with NIST-defined curves (for now). For more info, see: https://security.stackexchange.com/a/46781.
