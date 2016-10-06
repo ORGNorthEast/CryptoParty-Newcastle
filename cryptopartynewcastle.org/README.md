@@ -94,11 +94,13 @@ And change the first port on each line in the `expose` section, like so:
 ## If you want Discourse to share a port with another webserver like Apache or nginx,
 ## see https://meta.discourse.org/t/17247 for details
 expose:
-  - "8090:80"   # http
-  - "8091:443" # https
+  - "127.0.0.1:8090:80"   # http
+  - "127.0.0.1:8091:443" # https
 ```
 
 The above example will listen for HTTP connections on port `8090` on the host, and redirect it to port `80` in the Docker container.
+
+Since we're using an nginx reverse proxy to connect to our Discourse instance, rather than a direct connection, please pay close attention to [the addition of 127.0.0.1](https://meta.discourse.org/t/running-other-websites-on-the-same-machine-as-discourse/17247/26) on each line above. This is done because when Docker is configured to expose ports, it [messes with the iptables firewall directly](http://blog.viktorpetersson.com/post/101707677489/the-dangers-of-ufw-docker) and would end up bypassing UFW and listening for outside connections on `8090` and `8091` if we didn't ensure we did that.
 
 Rebuild and rebuild Discourse with:
 ```
@@ -131,7 +133,7 @@ sudo ufw reset && sudo ufw default deny incoming && sudo ufw default allow outgo
 
 You can check the firewall status with the following command:
 ```
-sudo ufw status
+sudo ufw status verbose
 ```
 
 It's probably advisable to try and open a new SSH connection to the server in a new terminal window before closing the original session. If your connection is rejected, this means you have probably misconfigured the firewall, but the original SSH session will still be active so you can fix the problem, and you will not have locked yourself out.
