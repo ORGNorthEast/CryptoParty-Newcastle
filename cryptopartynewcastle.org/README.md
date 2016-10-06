@@ -1,5 +1,5 @@
 ### Server Config Transparency Notes
-This is the server installation log for https://cryptopartynewcastle.org/ (also available at http://nclcrypto2bfuejv.onion/)
+This is the server installation log for the CryptoParty Newcastle [website](https://cryptopartynewcastle.org/) and [forum](https://forum.cryptopartynewcastle.org/).
 
 Debian 8 (Jessie) installed as host OS.
 
@@ -26,10 +26,10 @@ Configured `sshd_config` as per the example in this repo:
 sudo nano /etc/ssh/sshd_config
 ```
 
-Set up Ed25519 keyfile for client OpenSSH authentication. Also runs on non-standard port (see `/etc/ssh/sshd_config`)
+Set up Ed25519 keyfile for client OpenSSH authentication. Also runs on non-standard port (see the `sshd_config` file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/ssh/sshd_config))
 
 
-Tor installed to provide updates over onion service (see `/etc/apt/sources.list`):
+Tor installed to provide updates over onion service (see the `torrc` config file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/tor/torrc):
 ```
 sudo apt install apt-transport-tor tor && sudo systemctl start tor && sudo systemctl enable tor
 ```
@@ -39,7 +39,7 @@ Added TorProject repo signing keys with:
 sudo apt-key adv --keyserver keys.gnupg.net --recv-keys A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 ```
 
-Configured `sources.list` as per the example in this repo:
+Configured `sources.list` as per [the example in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/apt/sources.list):
 ```
 sudo nano /etc/apt/sources.list
 ```
@@ -49,7 +49,7 @@ Ensured everything was up-to-date:
 sudo apt-get clean && sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
 ```
 
-Configured NTP due to virtual machine clock drift causing Tor to not work (Deployed `/etc/ntp.conf` as per this repo's example):
+Configured NTP due to virtual machine clock drift causing Tor to not work (Deployed `/etc/ntp.conf` as per [this repo's example](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/ntp.conf)):
 ```
 sudo apt-get install ntp && sudo systemctl start ntp && sudo systemctl enable ntp
 ```
@@ -102,7 +102,7 @@ The above example will listen for HTTP connections on port `8090` on the host, a
 
 Since we're using an nginx reverse proxy to connect to our Discourse instance, rather than a direct connection, please pay close attention to [the addition of 127.0.0.1](https://meta.discourse.org/t/running-other-websites-on-the-same-machine-as-discourse/17247/26) on each line above. This is done because when Docker is configured to expose ports, it [messes with the iptables firewall directly](http://blog.viktorpetersson.com/post/101707677489/the-dangers-of-ufw-docker) and would end up bypassing UFW and listening for outside connections on `8090` and `8091` if we didn't ensure we did that.
 
-Rebuild and rebuild Discourse with:
+Then rebuild Discourse with:
 ```
 cd /var/discourse && sudo ./launcher rebuild app
 ```
@@ -112,7 +112,7 @@ Install nginx:
 sudo apt-get install nginx
 ```
 
-Ensure the `proxy_pass` and `proxy_redirect` directives in the `nginx.conf` file point to our new HTTP port (`8090`). (See the `/etc/nginx/nginx.conf` example in this repo)
+Ensure the `proxy_pass` and `proxy_redirect` directives in the `nginx.conf` file point to our new HTTP port (`8090`). (See the `/etc/nginx/nginx.conf` example [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/nginx/nginx.conf))
 
 Added `cryptoparty` user to `www-data` group, to make it easier to deal with nginx directories:
 ```
@@ -169,4 +169,11 @@ sudo update-grub && sudo update-initramfs -u -k all
 
 
 #### HTTPS
-Finally, LetsEncrypt keys were generated using the process noted in LetsEncrypt dir README.md here on this repo.
+Finally, LetsEncrypt keys were generated using the process noted in [the LetsEncrypt README file here on this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/tree/master/cryptopartynewcastle.org/LetsEncrypt).
+
+
+#### Reboot
+As always, it's useful to check that after a reboot (or maintenance event) everything comes back up and works as expected. Our final test for this server is to reboot with:
+```
+sudo shutdown -r now
+```
