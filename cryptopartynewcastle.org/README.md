@@ -126,9 +126,9 @@ Install `ufw`:
 sudo apt-get install ufw
 ```
 
-One-line config to set all the options I use with `ufw`:
+One-line config to set all the options I use with `ufw` (note the use of `ufw limit` with the SSH parameter, which provides a similar ratelimiting function to `fail2ban`):
 ```
-sudo ufw reset && sudo ufw default deny incoming && sudo ufw default allow outgoing && sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw allow 45498/tcp && sudo ufw enable
+sudo ufw disable && sudo ufw reset && sudo ufw default deny incoming && sudo ufw default allow outgoing && sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw limit 45498/tcp && sudo ufw enable
 ```
 
 You can check the firewall status with the following command:
@@ -140,7 +140,7 @@ It's probably advisable to try and open a new SSH connection to the server in a 
 
 
 #### Install fail2ban
-Install `fail2ban`:
+Install `fail2ban` (Yes, we did use `ufw limit` earlier for SSH, but it can't hurt to install this too...):
 ```
 sudo apt-get install fail2ban
 ```
