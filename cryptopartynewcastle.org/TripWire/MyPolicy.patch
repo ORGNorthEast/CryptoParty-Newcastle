@@ -1,0 +1,84 @@
+--- DefaultPolicy/twpol.txt	2016-10-08 17:12:08.874231065 +0100
++++ MyPolicy/twpol.txt	2016-10-08 17:24:25.207616984 +0100
+@@ -114,7 +114,7 @@
+ )
+ {
+ 	/etc/init.d		-> $(SEC_BIN) ;
+-	/etc/rc.boot		-> $(SEC_BIN) ;
++#	/etc/rc.boot		-> $(SEC_BIN) ;
+ 	/etc/rcS.d		-> $(SEC_BIN) ;
+ 	/etc/rc0.d		-> $(SEC_BIN) ;
+ 	/etc/rc1.d		-> $(SEC_BIN) ;
+@@ -173,8 +173,8 @@
+   severity = $(SIG_HI)
+ )
+ {
+-	/var/lock		-> $(SEC_CONFIG) ;
+-	/var/run		-> $(SEC_CONFIG) ; # daemon PIDs
++#	/var/lock		-> $(SEC_CONFIG) ;
++#	/var/run		-> $(SEC_CONFIG) ; # daemon PIDs
+ 	/var/log		-> $(SEC_CONFIG) ;
+ }
+ 
+@@ -185,30 +185,30 @@
+ )
+ {
+ 	/root				-> $(SEC_CRIT) ; # Catch all additions to /root
+-	/root/mail			-> $(SEC_CONFIG) ;
+-	/root/Mail			-> $(SEC_CONFIG) ;
+-	/root/.xsession-errors		-> $(SEC_CONFIG) ;
+-	/root/.xauth			-> $(SEC_CONFIG) ;
+-	/root/.tcshrc			-> $(SEC_CONFIG) ;
+-	/root/.sawfish			-> $(SEC_CONFIG) ;
+-	/root/.pinerc			-> $(SEC_CONFIG) ;
+-	/root/.mc			-> $(SEC_CONFIG) ;
+-	/root/.gnome_private		-> $(SEC_CONFIG) ;
+-	/root/.gnome-desktop		-> $(SEC_CONFIG) ;
+-	/root/.gnome			-> $(SEC_CONFIG) ;
+-	/root/.esd_auth			-> $(SEC_CONFIG) ;
+-	/root/.elm			-> $(SEC_CONFIG) ;
+-	/root/.cshrc		        -> $(SEC_CONFIG) ;
++#	/root/mail			-> $(SEC_CONFIG) ;
++#	/root/Mail			-> $(SEC_CONFIG) ;
++#	/root/.xsession-errors		-> $(SEC_CONFIG) ;
++#	/root/.xauth			-> $(SEC_CONFIG) ;
++#	/root/.tcshrc			-> $(SEC_CONFIG) ;
++#	/root/.sawfish			-> $(SEC_CONFIG) ;
++#	/root/.pinerc			-> $(SEC_CONFIG) ;
++#	/root/.mc			-> $(SEC_CONFIG) ;
++#	/root/.gnome_private		-> $(SEC_CONFIG) ;
++#	/root/.gnome-desktop		-> $(SEC_CONFIG) ;
++#	/root/.gnome			-> $(SEC_CONFIG) ;
++#	/root/.esd_auth			-> $(SEC_CONFIG) ;
++#	/root/.elm			-> $(SEC_CONFIG) ;
++#	/root/.cshrc		        -> $(SEC_CONFIG) ;
+ 	/root/.bashrc			-> $(SEC_CONFIG) ;
+-	/root/.bash_profile		-> $(SEC_CONFIG) ;
+-	/root/.bash_logout		-> $(SEC_CONFIG) ;
++#	/root/.bash_profile		-> $(SEC_CONFIG) ;
++#	/root/.bash_logout		-> $(SEC_CONFIG) ;
+ 	/root/.bash_history		-> $(SEC_CONFIG) ;
+-	/root/.amandahosts		-> $(SEC_CONFIG) ;
+-	/root/.addressbook.lu		-> $(SEC_CONFIG) ;
+-	/root/.addressbook		-> $(SEC_CONFIG) ;
+-	/root/.Xresources		-> $(SEC_CONFIG) ;
+-	/root/.Xauthority		-> $(SEC_CONFIG) -i ; # Changes Inode number on login
+-	/root/.ICEauthority		    -> $(SEC_CONFIG) ;
++#	/root/.amandahosts		-> $(SEC_CONFIG) ;
++#	/root/.addressbook.lu		-> $(SEC_CONFIG) ;
++#	/root/.addressbook		-> $(SEC_CONFIG) ;
++#	/root/.Xresources		-> $(SEC_CONFIG) ;
++#	/root/.Xauthority		-> $(SEC_CONFIG) -i ; # Changes Inode number on login
++#	/root/.ICEauthority		    -> $(SEC_CONFIG) ;
+ }
+ 
+ #
+@@ -220,7 +220,7 @@
+ )
+ {
+ 	/dev		-> $(Device) ;
+-	/proc		-> $(Device) ;
++#	/proc		-> $(Device) ;
+ }
+ 
+ #

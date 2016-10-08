@@ -1,4 +1,4 @@
-### Server Config Transparency Notes
+## Server Config Transparency Notes
 This is the server installation log for the CryptoParty Newcastle [website](https://cryptopartynewcastle.org/) and [forum](https://forum.cryptopartynewcastle.org/).
 
 Debian 8 (Jessie) installed as host OS.
@@ -166,6 +166,48 @@ Refresh GRUB and Kernel initramfs:
 ```
 sudo update-grub && sudo update-initramfs -u -k all
 ```
+
+
+#### Install TripWire
+'''Caution:''' If you intend to use TripWire, it is recommended that your system does not deploy `unattended-upgrades`. System and package upgrades (as you might expect) modify a lot of files on disk and the use of unattended upgrades will lead to your TripWire reports of modified files being mostly false positives that have been changed by the update process, and you may end up missing vital clues leading to a genuine intrusion.
+
+Install TripWire [HIDS](https://en.wikipedia.org/wiki/Host-based_intrusion_detection_system):
+```
+sudo apt-get install tripwire
+```
+
+Initialize TripWire database:
+```
+sudo tripwire --init
+```
+
+Pay attention to the files that TripWire notes are not installed (you probably want to comment these out in your TripWire policy, or the fact that they are "missing" will be reported as an error every time TripWire is run).
+
+Edit TripWire policy:
+```
+sudo nano /etc/tripwire/twpol.txt
+```
+
+See [here](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/TripWire/DefaultPolicy/twpol.txt) for the default policy, [here](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/TripWire/MyPolicy/twpol.txt) for my policy, and [here](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/TripWire/MyPolicy.patch) for a patchdiff comparing the two.
+
+Load new TripWire policy:
+```
+sudo twadmin -m P /etc/tripwire/twpol.txt
+```
+
+Rebuild the TripWire database using the new config:
+```
+sudo tripwire --init
+```
+
+In the future, you can now check for files within the TripWire policy which have been modified with the following command:
+```
+sudo tripwire --check
+```
+
+When conducting system updates, it is a good idea to run `tripwire --check` before updating anything, as updates will modify a lot of system files and you may miss out on information about a potential intrusion if you conduct an update before running a TW check.
+
+After you have finished updating, remember to run `tripwire --init` again, to re-initialize the TripWire database and make it aware of the new packages. If you do not do this, you will still be working from a pre-update TripWire database, and a `tripwire --check` will report up a lot of false positives, as it cannot distinguish between files modified maliciously and files modified by a system update.
 
 
 #### HTTPS
