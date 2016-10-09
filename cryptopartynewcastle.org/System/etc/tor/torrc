@@ -1,10 +1,37 @@
-# Keep no statistics.
+# Keep our logs in a safe place for later reading ;)
+Log notice file /dev/null
+
+# Keep no statistics
+CellStatistics 0
 DirReqStatistics 0
+EntryStatistics 0
+ExitPortStatistics 0
 ExtraInfoStatistics 0
 
-# Set some local security options.
-ClientOnly 1
+# Run as a client locally to proxy Apt traffic
+SocksPort 127.0.0.1:9050
 SafeSocks 1
+
+# Define relaying and directory features
+ORPort 0.0.0.0:9001
+DirPort 0.0.0.0:9030
+
+# Reject all exit traffic (Configures us as a middle/guard relay only)
+Exitpolicy reject *:*
+
+# Provide relay info
+Address orgnortheast2.cryptopartynewcastle.org # Specify DNS address of server, despite this not strictly being required.
+Nickname ORGNorthEast2
+ContactInfo Alex Haydock <alex@alexhaydock.co.uk>
+MyFamily $FDF845FC159C0020E2BDDA120C30C5C5038F74B4,$A37B688506860287562C448A6F2BB965BCAB0355
+
+# Throttle traffic to 10MB/s (80Mbps) and allow bursting up to 12MB/s (96Mbps)
+RelayBandwidthRate 10 MBytes
+RelayBandwidthBurst 12 MBytes
+
+# Define relay traffic limits
+AccountingMax 32 TB # Allow a max of 32TB in and out (total monthly allowance will be 64TB).
+AccountingStart month 1 00:00 # Bandwidth counter begins counting on the first day of each month at 00:00.
 
 # Try to prevent Sybil attacks by not letting more than 2 servers
 # in the same circuit be within the same /16 range.
@@ -30,3 +57,7 @@ ServerDNSRandomizeCase 1
 ControlPort 127.0.0.1:9051
 CookieAuthentication 1
 DisableDebuggerAttachment 0
+
+# Performance tweaks
+NumCPUs 1 # This is a dual-core system, but only use one core to avoid slowing down other processes on the machine.
+HardwareAccel 1 # This machine should support AES-NI, among other things. Try it, if possible.

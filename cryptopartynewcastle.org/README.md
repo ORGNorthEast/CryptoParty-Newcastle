@@ -29,9 +29,9 @@ sudo nano /etc/ssh/sshd_config
 Set up Ed25519 keyfile for client OpenSSH authentication. Also runs on non-standard port (see the `sshd_config` file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/ssh/sshd_config))
 
 
-Tor installed to provide updates over onion service (see the `torrc` config file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/tor/torrc):
+Tor installed to provide updates over onion service and to provide our Tor relay (see the `torrc` config file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/tor/torrc):
 ```
-sudo apt install apt-transport-tor tor && sudo systemctl start tor && sudo systemctl enable tor
+sudo apt install apt-transport-tor tor tor-arm && sudo systemctl start tor && sudo systemctl enable tor
 ```
 
 Added TorProject repo signing keys with:
@@ -128,8 +128,15 @@ sudo apt-get install ufw
 
 One-line config to set all the options I use with `ufw` (note the use of `ufw limit` with the SSH parameter, which provides a similar ratelimiting function to `fail2ban`):
 ```
-sudo ufw disable && sudo ufw reset && sudo ufw default deny incoming && sudo ufw default allow outgoing && sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw limit 45498/tcp && sudo ufw enable
+sudo ufw disable && sudo ufw reset && sudo ufw default deny incoming && sudo ufw default allow outgoing && sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw allow 9001/tcp && sudo ufw allow 9030/tcp && sudo ufw limit 45498/tcp && sudo ufw enable
 ```
+
+Breakdown of Firewall ports:
+* `80` - HTTP
+* `443` - HTTPS
+* `9001` - Tor Relay Port
+* `9030` - Tor Directory Port
+* `45498` - SSH Port
 
 You can check the firewall status with the following command:
 ```
