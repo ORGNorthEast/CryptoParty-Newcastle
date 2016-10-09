@@ -4,7 +4,7 @@ This is the server installation log for the CryptoParty Newcastle [website](http
 Debian 8 (Jessie) installed as host OS.
 
 
-#### OS Installation
+#### OS Initial Setup
 Perform first update as root and install sudo:
 ```
 su -c "apt-get clean && apt-get update && apt-get install sudo"
@@ -15,6 +15,8 @@ Added `cryptoparty` user to sudoers list:
 su -c "usermod -a -G sudo cryptoparty"
 ```
 
+
+#### SSH Configuration
 Generated Ed25519 host key with:
 ```
 sudo rm -v /etc/ssh/ssh_host_*key*
@@ -29,6 +31,7 @@ sudo nano /etc/ssh/sshd_config
 Set up Ed25519 keyfile for client OpenSSH authentication. Also runs on non-standard port (see the `sshd_config` file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/ssh/sshd_config))
 
 
+#### Tor Configuration
 Tor installed to provide updates over onion service and to provide our Tor relay (see the `torrc` config file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/tor/torrc):
 ```
 sudo apt install apt-transport-tor tor tor-arm && sudo systemctl start tor && sudo systemctl enable tor
@@ -39,6 +42,25 @@ Added TorProject repo signing keys with:
 sudo apt-key adv --keyserver keys.gnupg.net --recv-keys A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 ```
 
+While we're busy configuring Tor, we might as well add our user to the `debian-tor` group, so it gains access to our relay's control socket but not our identity key and other files it has no business messing about in (**Note:** `sudo -u debian-tor arm` is the [dangerous way of using arm](https://web.archive.org/web/20161009122708/http://archives.seul.org/tor/relays/May-2016/msg00072.html)):
+```
+sudo usermod -a -G debian-tor cryptoparty
+```
+
+As a follow-up note to the above, files within `/var/lib/tor/` are maintained `rw-------` (`chmod 700`). You can check this with this command:
+```
+sudo ls -lah /var/lib/tor/
+```
+
+If everything has worked correctly, the permissions in `/var/lib/tor/` should be correct, and you should be able to open arm without errors by simply invoking:
+```
+arm
+```
+
+(Remember that you need to log out and back in again before a user will pick up the privileges of any new groups assigned to it.)
+
+
+#### Repo Configuration
 Configured `sources.list` as per [the example in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/apt/sources.list):
 ```
 sudo nano /etc/apt/sources.list
@@ -176,7 +198,7 @@ sudo update-grub && sudo update-initramfs -u -k all
 
 
 #### Install TripWire
-'''Caution:''' If you intend to use TripWire, it is recommended that your system does not deploy `unattended-upgrades`. System and package upgrades (as you might expect) modify a lot of files on disk and the use of unattended upgrades will lead to your TripWire reports of modified files being mostly false positives that have been changed by the update process, and you may end up missing vital clues leading to a genuine intrusion.
+**Caution:** If you intend to use TripWire, it is recommended that your system does not deploy `unattended-upgrades`. System and package upgrades (as you might expect) modify a lot of files on disk and the use of unattended upgrades will lead to your TripWire reports of modified files being mostly false positives that have been changed by the update process, and you may end up missing vital clues leading to a genuine intrusion.
 
 Install TripWire [HIDS](https://en.wikipedia.org/wiki/Host-based_intrusion_detection_system):
 ```
@@ -221,7 +243,7 @@ After you have finished updating, remember to run `tripwire --init` again, to re
 Finally, LetsEncrypt keys were generated using the process noted in [the LetsEncrypt README file here on this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/tree/master/cryptopartynewcastle.org/LetsEncrypt).
 
 
-#### Reboot
+#### Final Reboot
 As always, it's useful to check that after a reboot (or maintenance event) everything comes back up and works as expected. Our final test for this server is to reboot with:
 ```
 sudo shutdown -r now
