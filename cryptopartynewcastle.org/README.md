@@ -23,12 +23,12 @@ sudo rm -v /etc/ssh/ssh_host_*key*
 sudo ssh-keygen -t ed25519 -P "" -f "/etc/ssh/ssh_host_ed25519_key"
 ```
 
-Configured `sshd_config` as per the example in this repo:
+Configured ssh daemon to use only secure ciphers and run on a non-standard port, as per the example config file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/ssh/sshd_config):
 ```
 sudo nano /etc/ssh/sshd_config
 ```
 
-Set up Ed25519 keyfile for client OpenSSH authentication. Also runs on non-standard port (see the `sshd_config` file [in this repo](https://github.com/ORGNorthEast/CryptoParty-Newcastle/blob/master/cryptopartynewcastle.org/System/etc/ssh/sshd_config))
+Set up Ed25519 keyfile for client OpenSSH authentication.
 
 
 #### Tor Configuration

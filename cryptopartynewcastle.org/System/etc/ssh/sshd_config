@@ -40,11 +40,11 @@ UsePrivilegeSeparation sandbox
 	KexAlgorithms	curve25519-sha256@libssh.org
 
 # Encryption Ciphers
-	# Support ChaCha only because of GCM weaknesses (https://www.cryptologie.net/article/361/nonce-disrespecting-adversaries-practical-forgery-attacks-on-gcm-in-tls/)
+	# Only support ChaCha20-Poly1305. This is because of GCM weaknesses (https://www.cryptologie.net/article/361/nonce-disrespecting-adversaries-practical-forgery-attacks-on-gcm-in-tls/)
 	Ciphers		chacha20-poly1305@openssh.com
 
 # Server Authentication
-	# We're not using ECDSA here because it can currently only be used with NIST-defined curves (for now). For more info, see: https://security.stackexchange.com/a/46781.
+	# Don't bother supporting ECDSA here because it can currently only be used with NIST-defined curves (for now). For more info, see: https://security.stackexchange.com/a/46781.
 	# Generate this server authentication key as follows:
 	#     cd /etc/ssh
 	#     rm ssh_host_*key*
