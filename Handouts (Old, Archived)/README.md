@@ -1,22 +1,14 @@
 ## CryptoParty Newcastle Handouts
 
+**Note: These handouts are currently no longer in use or development. They rely on proprietary Adobe InDesign software which restricts collaboration from the community. We have made efforts to update these handouts to use the free and open source LaTeX document processing engine. See [here](https://github.com/ORGNorthEast/CryptoParty-Newcastle/tree/master/Handouts) for more info.**
+
 #### About
 These handouts are developed with the intent that they be distributed alongside accompanying practical demonstrations at our CryptoParties. They may therefore be missing some of the information that we intend to cover directly at the events. You may want to consider adding some of this information back in if you plan on distributing these without the accompanying practical demonstration.
 
 We formatted these handouts intending to print them on a mono laser printer, so they're not as glamorous as they perhaps could be. If you use these assets to make more glamorous colour versions for your purposes please do let us know!
 
-#### Editing and Building
-These handouts are designed to be as open and easy-to-use as possible. They are formatted using the [LaTeX](https://en.wikibooks.org/wiki/LaTeX) document processing language so they can be edited in plain-text and built into a beautiful PDF with ease.
-
-To generate your own version of a handout it's as easy as editing the `.tex` file with a text editor and running:
-```
-xelatex handout.tex
-```
-
-This will generate you a nice PDF for printing like the ones you see here. If you want to use a graphical tool for editing these, we recommend `texmaker`. It will be available on any good Linux distribution, and [also works on Windows and macOS](http://www.xm1math.net/texmaker/download.html).
-
-#### Contributing
-Another benefit of LaTeX-based templates is that they make it super-easy to allow the community to submit edits and contributions. If you'd like to suggest an edit or correction, feel free to email me at [alex@alexhaydock.co.uk](mailto:alex@alexhaydock.co.uk), or you can edit the file and submit a pull request here on GitHub directly. Any contributions are gratefully accepted!
+### Proprietary Formats
+Some of the files in this repository make use of formats most often associated with proprietary software, such as the Adobe Creative Suite. Wherever possible, CryptoParty Newcastle advocates the use of Free and Open Source software to interface with these formats.
 
 #### Credits
 * Some of these handouts use adapted text or images from the Electronic Frontier Foundation's [Surveillance Self Defence](https://ssd.eff.org/) project. We provide these templates and documents with thanks to them for their materials.

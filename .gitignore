@@ -1,0 +1,5 @@
+# Don't upload Texmaker temp files generated when dealing with the handouts
+*.aux
+*.log
+*.out
+*.synctex.gz
