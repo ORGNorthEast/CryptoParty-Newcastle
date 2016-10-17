@@ -1,0 +1,75 @@
+# This file is based on the default config file for
+# Debian Jessie, but with significant hardening options.
+
+# See 'man sshd_config' for more info on this file, or this URL for info on the
+# Lynis tool's hardening recommendations: https://cisofy.com/controls/SSH-7408/
+
+# What ports, IPs and protocols we listen for
+Port 45498
+ListenAddress ::
+ListenAddress 0.0.0.0
+Protocol 2
+
+# Allow only the cryptoparty user to log in via SSH
+AllowUsers cryptoparty
+
+# Key Exchange (Only support Curve25519)
+KexAlgorithms curve25519-sha256@libssh.org
+
+# Encryption Ciphers (Only support ChaCha20-Poly1305)
+Ciphers chacha20-poly1305@openssh.com
+
+# Message Authentication Codes
+# (See: https://stribika.github.io/2015/01/04/secure-secure-shell.html)
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+
+# HostKeys (Only identify this server using our Ed25519 key)
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Logging (Leave this alone, or fail2ban won't see failed auth attempts)
+SyslogFacility AUTH
+LogLevel VERBOSE
+
+# Authentication options
+LoginGraceTime 60
+PermitRootLogin no
+StrictModes yes
+IgnoreRhosts yes
+PermitEmptyPasswords no
+
+# Use these auth methods
+RSAAuthentication yes
+PubkeyAuthentication yes
+PasswordAuthentication yes
+
+# Don't use these auth methods
+ChallengeResponseAuthentication no
+RhostsRSAAuthentication no
+HostbasedAuthentication no
+KerberosAuthentication no
+GSSAPIAuthentication no
+UsePAM no
+
+# Hardening options based on recommendations by the Lynis security auditing tool
+AllowAgentForwarding no
+AllowTcpForwarding no
+Compression no
+TCPKeepAlive yes
+UseDNS no
+UsePrivilegeSeparation sandbox
+VerifyReverseMapping yes
+X11Forwarding yes
+
+# Hardening options that are more relaxed than the Lynis suggestions
+ClientAliveCountMax 4
+MaxAuthTries 3
+MaxSessions 4
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# Other options from the default Debian config
+X11DisplayOffset 10
+PrintMotd no
+PrintLastLog yes
+Subsystem sftp /usr/lib/openssh/sftp-server
