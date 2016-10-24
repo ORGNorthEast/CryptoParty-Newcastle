@@ -1,0 +1,141 @@
+% DOCUMENT FORMATTING
+
+\documentclass[10.5pt,a4paper]{article} % Document type and paper size
+
+\usepackage[margin={1cm,1cm}]{geometry} % Margins 
+\usepackage{multicol} % For the two column layout
+\usepackage{graphicx} % For includegraphics / images command
+\usepackage{color} % Colour of fonts
+\usepackage[dvipsnames]{xcolor} % Colour of text boxes 
+\usepackage{parskip}  % For gaps between paragraphs 
+\usepackage{hyperref} % For working hyperlinks
+\usepackage{titlesec} % Needed to set section and subsection header spacing below
+\usepackage[T1]{fontenc} % Font used for main body + titles
+
+\setlength{\columnsep}{1cm} % Centeral gap between columns
+\graphicspath{ {images/} } % Graphics location
+\renewcommand*\rmdefault{pag} % Set font
+\pagenumbering{gobble} % Disables page numbering
+
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt} 
+% Spacing between different content types
+
+
+
+% DOCUMENT CONTENT
+
+\begin{document} % Document content below this point
+
+\begin{center}
+	\vspace{1cm}
+	\colorbox{Black}{
+		\begin{minipage}{18.5cm}
+			\begin{center}
+			\color{white}
+			\vspace{0.3cm}
+	             \includegraphics[width=1\textwidth]{organisationlogo.eps} % Organisation Logo
+	        \\[10pt]
+			     \textbf{{\LARGE CRYPTOPARTYNEWCASTLE.ORG}} % WEB URL
+			\vspace{0.3cm}
+			\end{center}
+		\end{minipage}
+	}
+\end{center}
+% Document Header
+
+
+\begin{center}
+\vspace{0.5cm}
+\textbf{{\LARGE Leaflet Subject Title Goes Here} % Leaflet Header
+\vspace{0.5cm}
+}\end{center}
+% Document Title
+
+
+\begin{multicols*}{2} % Two Column Layout
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque suscipit ligula eu pellentesque euismod. Sed condimentum convallis placerat. Curabitur ultricies felis ante, nec tempus dui euismod vel. Etiam vestibulum ex vitae mauris luctus semper. Proin vel viverra tellus.
+
+\begin{center}
+	\vspace{0.25cm} % Space between last paragraph and text box
+	\colorbox{Maroon}{ % Text box colour
+			\begin{minipage}{8cm}
+			\color{white} % FONT COLOUR
+			\vspace{0.1cm} % Space between top of box and text 
+			\textbf{WARNING:} Sed blandit purus pellentesque, egestas diam et, porta nunc. Sed ullamcorper purus nibh, sed tempor ante fermentum a. Vestibulum vel mi id est mollis fermentum. % Text box content
+			\vspace{0.1cm} % Space between bottom of box and text
+		\end{minipage}
+	}
+\end{center}
+% Warning box, to highlight important information
+
+
+\section*{Section A - Title 1}
+Donec hendrerit volutpat mi, sed porttitor sem congue quis. Fusce vitae quam ut magna luctus gravida.
+
+\begin{center}
+	\url{https://github.com/karlbirrane} % Clickable URL.
+\end{center}
+
+Aliquam erat volutpat. Proin blandit elementum viverra. Nunc sagittis in arcu vitae molestie. Proin eleifend purus eu auctor pulvinar. 
+
+Maecenas felis quam, pharetra vitae nisi ullamcorper, aliquet rutrum diam. Fusce sed bibendum enim, sollicitudin faucibus est.
+
+
+
+\section*{Section B - Title 2}
+
+Duis malesuada convallis sapien, \textit{eget aliquam} justo iaculis non. Curabitur pharetra magna {fermentum neque}\textit porttitor, et cursus nisl consectetur. % textit = Italics
+
+\begin{center}
+	\includegraphics[width=0.40\textwidth]{sample_001.png} % Embed image from the images folder
+\end{center}
+
+Aliquam id erat porttitor, pretium ligula et, egestas magna. Sed ultrices efficitur magna, id aliquam ligula tristique vitae. Sed libero leo, tristique quis blandit auctor, tincidunt in nibh.
+
+\begin{center}
+	\includegraphics[width=0.40\textwidth]{sample_002.png}
+\end{center}
+
+Nullam non bibendum nunc, a luctus dui. Cras eu tortor commodo, aliquam neque vitae, interdum mauris. Ut suscipit dictum est \textit{sed ultricies}
+
+\begin{center}
+	\includegraphics[width=0.40\textwidth]{sample_003.png}
+\end{center}
+
+
+
+\section*{Section C - Title 3}
+
+Praesent pulvinar elementum nisi vel tempus. Vivamus aliquet sit amet purus eu aliquet. Phasellus sit amet nibh in nisl ultricies auctor sit amet aliquam turpis.
+
+\begin{center}
+	\includegraphics[width=0.40\textwidth]{sample_004.png}
+\end{center}
+
+Pellentesque sapien nunc, faucibus ac vehicula non, vulputate ut tortor. Proin dapibus, magna non auctor porta, orci tellus fringilla mauris, pulvinar malesuada eros justo vitae nisi. \textbf {Duis laoreet sed leo eget tincidunt. Donec varius orci at suscipit pretium.} % textbf = bold
+
+
+
+
+\begin{center}
+	\vfill % Blank vertical space until box starts in bottom corner.
+	\colorbox{Black}{
+		\begin{minipage}{8cm}
+			\color{white}
+			\vspace{0.2cm}
+			\begin{center}
+				\textbf{{\Large Please visit \url{cryptopartynewcastle.org}\\for more information.}}
+			\end{center}
+			\vspace{0.2cm}
+		\end{minipage}
+	}
+\end{center}
+
+\vspace{0.75cm}
+
+\end{multicols*}
+
+\end{document}
