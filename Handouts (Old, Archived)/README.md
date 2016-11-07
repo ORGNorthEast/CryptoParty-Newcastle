@@ -7,9 +7,6 @@ These handouts are developed with the intent that they be distributed alongside 
 
 We formatted these handouts intending to print them on a mono laser printer, so they're not as glamorous as they perhaps could be. If you use these assets to make more glamorous colour versions for your purposes please do let us know!
 
-### Proprietary Formats
-Some of the files in this repository make use of formats most often associated with proprietary software, such as the Adobe Creative Suite. Wherever possible, CryptoParty Newcastle advocates the use of Free and Open Source software to interface with these formats.
-
 #### Credits
 * Some of these handouts use adapted text or images from the Electronic Frontier Foundation's [Surveillance Self Defence](https://ssd.eff.org/) project. We provide these templates and documents with thanks to them for their materials.
 * Many thanks to [Karl Birrane](http://karlbirrane.co.uk/) for the original handout design templates found here, and for the hard work updating those templates to use LaTeX.

@@ -3,3 +3,12 @@
 *.log
 *.out
 *.synctex.gz
+
+# Don't upload InDesign lock files
+*.idlk
+
+# Don't upload certain macOS tempfiles
+._*.idlk
+._*.indd
+._*.pdf
+._*.png
