@@ -1,0 +1,55 @@
+# Keep no statistics
+CellStatistics 0
+DirReqStatistics 0
+EntryStatistics 0
+ExitPortStatistics 0
+ExtraInfoStatistics 0
+
+# Do not run a local SOCKS proxy
+SocksPort 0
+SocksPolicy reject *
+
+# Define relaying and directory features
+ORPort 0.0.0.0:9001
+DirPort 0.0.0.0:9030
+
+# Reject all exit traffic (Configures us as a middle/guard relay only)
+Exitpolicy reject *:*
+
+# Provide relay info
+Address cryptopartynewcastle.org # Specify DNS address of server, despite this not strictly being required.
+Nickname ORGNorthEast1
+ContactInfo Alex Haydock <alex@alexhaydock.co.uk>
+MyFamily $FDF845FC159C0020E2BDDA120C30C5C5038F74B4,$A37B688506860287562C448A6F2BB965BCAB0355
+
+# Throttle traffic to 12MB/s (96Mbps) and allow bursting up to 13MB/s (104Mbps)
+RelayBandwidthRate 12 MBytes
+RelayBandwidthBurst 13 MBytes
+
+# Define relay traffic limits
+AccountingMax 32 TB # Allow a max of 32TB in and out (total monthly traffic will be max. 64TB).
+AccountingStart month 1 00:00 # Bandwidth counter begins counting on the first day of each month at 00:00.
+
+# Try to prevent Sybil attacks by not letting more than 2 servers
+# in the same circuit be within the same /16 range.
+EnforceDistinctSubnets 1
+
+# If we are running as root we may also want to disable writing to swap for
+# security reasons, to avoid leaking any information.
+# Disabled by default as setting this requires root.
+##DisableAllSwap 1
+
+# We can also write nothing to disk if we want, but we probably
+# want Tor to be able to cache its chosen guard relay so that
+# guard rotation can work properly - so I've disabled this by default.
+##AvoidDiskWrites 1
+
+# Try to detect basic DNS poisoning attacks by randomising the letter
+# case in our domain lookups. (If example.com is cached to an IP of 1.3.3.7,
+# the exit relay will do a name lookup for eXaMplE.coM which may
+# not be altered by the attacker and will hopefully point to the correct IP.
+ServerDNSRandomizeCase 1
+
+# Performance tweaks
+NumCPUs 1 # Single core VM.
+HardwareAccel 1 # This machine should support AES-NI, among other things. Try it, if possible.

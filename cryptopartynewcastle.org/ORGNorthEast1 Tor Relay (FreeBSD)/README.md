@@ -59,24 +59,16 @@ relay ALL=(ALL) ALL
 After a reboot, you should now be able to log in as the non-root user via SSH and perform administrative tasks that way using `sudo`.
 
 
-## Installing Open-VM-Tools (VMware Guests Only)
-Run the following (make sure to turn of X11 support at the `ncurses` prompt - might as well reduce the attack surface by not compiling in features we don't need).
-
-This will take a LONG time, as there are a lot of dependencies to build too.
-```
-cd /usr/ports/emulators/open-vm-tools
-sudo make install clean
-```
-
-
 ## Installing Tor
+**Note:** The FreeBSD equivalent of Linux's `/var/lib/tor` is `/var/db/tor`. This is where you can expect Tor stats, identity files, and hidden service keys to be stored.
+
 Install:
 ```
 cd /usr/ports/security/tor
 sudo make install clean
 ```
 
-Copy the sample config to the default config location:
+Copy the sample config to the default config location (or you can base your config on the one in this directory):
 ```
 sudo cp /usr/local/etc/tor/torrc.sample /usr/local/etc/tor/torrc
 ```
@@ -86,9 +78,9 @@ Tweak the config:
 sudo nano /usr/local/etc/tor/torrc
 ```
 
-Create the logfile and set the correct permissions:
+To enable logging for debug purposes, ensure that the following line is not commented out in the `torrc` config. You can disable logging at a later date if you like, but this is probably going to be useful for debugging why things don't work if they are failing:
 ```
-sudo touch /var/log/tor.log && sudo chown _tor:_tor /var/log/tor.log && sudo chmod 600 /var/log/tor.log
+Log notice file /var/log/tor/notices.log
 ```
 
 To enable Tor as a daemon (sets it to start on boot), open the `rc.conf` file for editing:
@@ -108,7 +100,65 @@ sudo shutdown -r now
 
 And confirm that Tor has started properly after the reboot:
 ```
-tail -f /var/log/tor.log
+sudo ps aux | grep tor
+```
+
+We can also tail the logfile we specified in the `torrc`:
+```
+sudo tailf /var/log/tor/notices.log
+```
+
+
+## Copying Tor Config from an Existing Machine
+If, like me, you can't be bothered to build `rsync` from ports, `scp` is probably the easiest option to move an existing relay's config to your new FreeBSD host. I did (from the machine containing the current config):
+
+```
+scp -r /path/to/tor/config/backup/ relay@172.16.16.60:/home/relay/torconfig/
+```
+
+Always remember that if you copy an old config over `/var/db/tor` on your FreeBSD machine, that it should be owned by the `_tor` user and group. To be safe:
+```
+sudo chown -R _tor:_tor /var/db/tor
+```
+
+
+## Installing Open-VM-Tools (VMware Guests Only)
+Run the following (make sure to turn of X11 support when the `ncurses` prompt gives you the option - might as well reduce the attack surface by not compiling in features we don't need).
+
+This will take a LONG time, as there are a lot of dependencies to build too.
+```
+cd /usr/ports/emulators/open-vm-tools
+sudo make install clean
+```
+
+To run the Open Virtual Machine tools at startup, add the following
+settings to your ```/etc/rc.conf```
+```
+vmware_guest_vmblock_enable="YES"
+vmware_guest_vmhgfs_enable="YES"
+vmware_guest_vmmemctl_enable="YES"
+vmware_guest_vmxnet_enable="YES"
+vmware_guestd_enable="YES"
+```
+
+
+## Future Maintenance - Backing-Up/Migrating Relay Identity
+It should suffice to back-up `/var/db/tor` if you want to preserve (or migrate) your relay. If you are migrating, the following files are the important ones:
+```
+/var/db/tor/fingerprint
+/var/db/tor/keys/ed25519_master_id_public_key
+/var/db/tor/keys/ed25519_master_id_secret_key
+/var/db/tor/keys/ed25519_signing_cert
+/var/db/tor/keys/ed25519_signing_secret_key
+/var/db/tor/keys/secret_id_key
+/var/db/tor/keys/secret_onion_key
+/var/db/tor/keys/secret_onion_key_ntor
+```
+
+
+## Future Maintenance - Stopping Tor Service (Temporarily)
+```
+sudo service stop tor
 ```
 
 
@@ -131,7 +181,7 @@ sudo portaudit -F
 
 
 ## Future Maintenace - Updating All Outdated Ports
-Install `portupgrade`:
+Install `portupgrade` to help us with keeping software that we installed from ports up-to-date:
 ```
 cd /usr/ports/sysutils/portupgrade
 sudo make install clean
