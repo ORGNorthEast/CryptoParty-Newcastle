@@ -1,9 +1,19 @@
-## Notes
-* Please note that to complete this guide you will need to create a VM with a relatively large filesystem (compiling all this code from ports can take up a lot of space). A 32GB disk should do it.
+### Why FreeBSD?
+As of the time I wrote this (Nov 2016), most of the relays in the network are running on Linux. This means that an exploit like [Dirty COW](https://dirtycow.ninja/) could potentially affect a **significant majority** of the relays within the network. An increase in diversity in the relays making up the Tor network is therefore a good thing, as it may help to defend against these classes of attacks or exploits which are unique to a particular kernel or operating system. Ideally, operating system distribution within the Tor network would be a lot more evenly-spread. Having a network that is too homogenous is harmful for its overall security.
+
+An example graph, from [torstatus.blutmagie.de](http://torstatus.blutmagie.de/network_detail.php) showing the (lack of) operating system diversity in Nov 2016:
+
+![Tor Network Diversity](https://raw.githubusercontent.com/ORGNorthEast/CryptoParty-Newcastle/master/cryptopartynewcastle.org/ORGNorthEast1%20Tor%20Relay%20(FreeBSD)/Nov2016Diversity.png)
+
+For the reasons listed above, I have decided to move the `ORGNorthEast` relay, which has existed for over a year on Linux based platforms (I've moved between Debian and CentOS a few times), to FreeBSD. In future I am also going to be looking into setting up relays on OpenBSD, and potentially OpenIndiana.
+
+
+### Notes
+* Please note that to complete this guide you will need to create a VM with a relatively large filesystem (compiling packages from ports can take up a lot of space). A 32GB disk should do it.
 * You might also want to create your VM with plenty of cores available when you're doing the initial installation and building packages (will speed things up a lot). You can then return to just 1 vCPU afterwards if you prefer.
 
 
-##Initial Installation & Update
+### Initial Installation & Update
 Install FreeBSD. Most of the defaults are probably fine, but I have included some notes below from my installation.
 
 Pick UFS over ZFS for the filesystem. There will be no real benefit from ZFS for a system like this, and it is much heavier on resources.
@@ -24,14 +34,14 @@ freebsd-update fetch install
 Reboot, and then log back into the `root` account via the console again.
 
 
-## Downloading the Ports Tree
+### Downloading the Ports Tree
 Perform the first download the ports tree (we use this command on a new system where `/usr/ports` is going to be blank):
 ```
 portsnap fetch extract
 ```
 
 
-## Maintenance as Non-Root User
+### Maintenance as Non-Root User
 To maintain the system via SSH, we should really be using the non-root user we created during the setup, and the `sudo` command.
 
 First, we need to install `sudo` from our newly synced ports tree:
@@ -59,7 +69,7 @@ relay ALL=(ALL) ALL
 After a reboot, you should now be able to log in as the non-root user via SSH and perform administrative tasks that way using `sudo`.
 
 
-## Installing Tor
+### Installing Tor
 **Note:** The FreeBSD equivalent of Linux's `/var/lib/tor` is `/var/db/tor`. This is where you can expect Tor stats, identity files, and hidden service keys to be stored.
 
 Install:
@@ -109,7 +119,7 @@ sudo tailf /var/log/tor/notices.log
 ```
 
 
-## Copying Tor Config from an Existing Machine
+### Copying Tor Config from an Existing Machine
 If, like me, you can't be bothered to build `rsync` from ports, `scp` is probably the easiest option to move an existing relay's config to your new FreeBSD host. I did (from the machine containing the current config):
 
 ```
@@ -122,7 +132,7 @@ sudo chown -R _tor:_tor /var/db/tor
 ```
 
 
-## Installing Open-VM-Tools (VMware Guests Only)
+### Installing Open-VM-Tools (VMware Guests Only)
 Run the following (make sure to turn of X11 support when the `ncurses` prompt gives you the option - might as well reduce the attack surface by not compiling in features we don't need).
 
 This will take a LONG time, as there are a lot of dependencies to build too.
@@ -142,7 +152,26 @@ vmware_guestd_enable="YES"
 ```
 
 
-## Future Maintenance - Backing-Up/Migrating Relay Identity
+### Installing Arm (Advanced Relay Monitor)
+Install [Arm](https://www.torproject.org/projects/arm.html.en) to monitor your Tor relay as follows:
+```
+cd /usr/ports/security/arm
+sudo make install clean
+```
+
+You will also need to install Python, as it does not seem to get built automatically when installing Arm:
+```
+/usr/ports/lang/python
+sudo make install clean
+```
+
+You should now be able to run arm as follows:
+```
+sudo -u _tor arm
+```
+
+
+### Future Maintenance - Backing-Up/Migrating Relay Identity
 It should suffice to back-up `/var/db/tor` if you want to preserve (or migrate) your relay. If you are migrating, the following files are the important ones:
 ```
 /var/db/tor/fingerprint
@@ -156,13 +185,13 @@ It should suffice to back-up `/var/db/tor` if you want to preserve (or migrate) 
 ```
 
 
-## Future Maintenance - Stopping Tor Service (Temporarily)
+### Future Maintenance - Stopping Tor Service (Temporarily)
 ```
 sudo service stop tor
 ```
 
 
-## Future Maintenance - Updating the Ports Tree
+### Future Maintenance - Updating the Ports Tree
 **Note:** The `portsnap fetch extract` command further up this page is for downloading the whole ports tree onto an empty system.
 
 Once we already have the ports tree downloaded, we will only need to run the following command in future:
@@ -171,7 +200,7 @@ sudo portsnap fetch && sudo portsnap update
 ```
 
 
-## Future Maintenance - Checking for Vulnerabilities
+### Future Maintenance - Checking for Vulnerabilities
 FreeBSD maintains a vulnerability database that should be checked regularly to ensure that there are no vulnerabilities in the software you have installed on your system.
 
 To check for known vulnerabilities with any of the optional software you have installed on your system, type:
@@ -180,7 +209,7 @@ sudo portaudit -F
 ```
 
 
-## Future Maintenace - Updating All Outdated Ports
+### Future Maintenace - Updating All Outdated Ports
 Install `portupgrade` to help us with keeping software that we installed from ports up-to-date:
 ```
 cd /usr/ports/sysutils/portupgrade

@@ -1,3 +1,5 @@
+# /usr/local/etc/tor/torrc
+
 # Keep no statistics
 CellStatistics 0
 DirReqStatistics 0
@@ -49,6 +51,11 @@ EnforceDistinctSubnets 1
 # the exit relay will do a name lookup for eXaMplE.coM which may
 # not be altered by the attacker and will hopefully point to the correct IP.
 ServerDNSRandomizeCase 1
+
+# Increase compatibility with "Arm" relay-status viewer.
+ControlPort 127.0.0.1:9051
+CookieAuthentication 1
+DisableDebuggerAttachment 0
 
 # Performance tweaks
 NumCPUs 1 # Single core VM.
