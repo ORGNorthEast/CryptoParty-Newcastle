@@ -62,10 +62,18 @@ suppress gen_id 119, sig_id 2
 ## so I'm suppressing them on a case-by-case basis.
 #(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
 suppress gen_id 126, sig_id 3, track by_src, ip 81.171.7.131
-#(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
 suppress gen_id 126, sig_id 3, track by_dst, ip 81.171.7.131
 #(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
 suppress gen_id 126, sig_id 3, track by_src, ip 176.10.99.206
-#(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
 suppress gen_id 126, sig_id 3, track by_dst, ip 176.10.99.206
+
+
+## Suppress alerts for the small number of Tor relays using SMTP ports
+## There really aren't many of these, so I'm tracking them individually.
+#(smtp) Attempted response buffer overflow
+suppress gen_id 124, sig_id 3, track by_src, ip 23.254.165.250
+suppress gen_id 124, sig_id 3, track by_dst, ip 23.254.165.250
+#(smtp) Attempted response buffer overflow
+suppress gen_id 124, sig_id 3, track by_src, ip 213.153.84.215
+suppress gen_id 124, sig_id 3, track by_dst, ip 213.153.84.215
 
