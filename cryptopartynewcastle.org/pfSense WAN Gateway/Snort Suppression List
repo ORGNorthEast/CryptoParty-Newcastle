@@ -1,0 +1,71 @@
+############################################################
+#      Suppressions by Rule (All Hosts Are Affected)       #
+############################################################
+
+## Loads of Tor relays run on FTP ports. Suppressing these
+## alerts suppressess most of the alerts I was getting
+## in my log that were from Tor relays:
+#(ftp_telnet) Invalid FTP Command
+suppress gen_id 125, sig_id 2
+#(ftp_telnet) FTP response message was too long
+suppress gen_id 125, sig_id 6
+#(ftp_telnet) Evasive (incomplete) TELNET CMD on FTP Command Channel
+suppress gen_id 125, sig_id 9
+
+## Suppress some alerts triggered mostly by Tor relays that are
+## running on HTTP ports (80, 8080, etc)
+#(http_inspect) NO CONTENT-LENGTH OR TRANSFER-ENCODING IN HTTP RESPONSE
+suppress gen_id 120, sig_id 3
+#(http_inspect) BARE BYTE UNICODE ENCODING
+suppress gen_id 119, sig_id 4
+#(http_inspect) UNESCAPED SPACE IN HTTP URI
+suppress gen_id 119, sig_id 33
+#(http_inspect) INVALID CONTENT-LENGTH OR CHUNK SIZE
+suppress gen_id 120, sig_id 8
+
+## For some reason this rule seems to be mostly triggered by FreeBSD's
+## portsnap upgrades... I don't know why, but I doubt it's much use anyway.
+#(http_inspect) TOO MANY PIPELINED REQUESTS
+suppress gen_id 119, sig_id 34
+
+## This one will suppress alerts caused by Tor relays running on POP3
+## ports. No major concern, since I'm not going to be running any POP3
+## services myself.
+#(POP) Unknown POP3 command
+suppress gen_id 142, sig_id 1
+
+## This one will suppress alerts caused by Tor relays running on IMAP
+## ports. No major concern, since I'm not going to be running any IMAP
+## services myself.
+#(IMAP) Unknown IMAP4 command
+suppress gen_id 141, sig_id 1
+#(IMAP) Unknown IMAP4 response
+suppress gen_id 141, sig_id 2
+
+## Suppress alerts for Tor relays running on SSH ports. I don't really
+## like this one much, but I'm never going to run SSH on port 22, so
+## there's not too much harm in it.
+#(spp_ssh) Protocol mismatch
+suppress gen_id 128, sig_id 4
+
+## These alerts are to do with inspected HTTP traffic, but seem to
+## get triggered a bit too easily leading to overzealous blocking.
+#(http_inspect) DOUBLE DECODING ATTACK
+suppress gen_id 119, sig_id 2
+
+
+############################################################
+# Suppressions by Host (Only Specified Hosts Are Affected) #
+############################################################
+
+## Some Tor relays run on Telnet ports too. Not too many though,
+## so I'm suppressing them on a case-by-case basis.
+#(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
+suppress gen_id 126, sig_id 3, track by_src, ip 81.171.7.131
+#(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
+suppress gen_id 126, sig_id 3, track by_dst, ip 81.171.7.131
+#(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
+suppress gen_id 126, sig_id 3, track by_src, ip 176.10.99.206
+#(ftp_telnet) Telnet Subnegotiation Begin Command without Subnegotiation End
+suppress gen_id 126, sig_id 3, track by_dst, ip 176.10.99.206
+

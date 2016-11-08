@@ -1,0 +1,11 @@
+# Debian Main Repository
+deb tor://vwakviie2ienjx6t.onion/debian jessie main
+##deb-src tor://vwakviie2ienjx6t.onion/debian jessie main
+
+# Debian Security Updates Repository
+deb tor://sgvtcaew4bxjd7ln.onion/ jessie/updates main
+##deb-src tor://sgvtcaew4bxjd7ln.onion/ jessie/updates main
+
+# Debian Updates Repository
+deb tor://vwakviie2ienjx6t.onion/debian jessie-updates main
+##deb-src tor://vwakviie2ienjx6t.onion/debian jessie-updates main

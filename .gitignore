@@ -12,3 +12,8 @@
 ._*.indd
 ._*.pdf
 ._*.png
+
+# Don't upload backup files for Tor Relay/pfSense
+hostname
+private_key
+config-*.xml
