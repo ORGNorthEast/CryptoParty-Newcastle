@@ -67,7 +67,6 @@ suppress gen_id 126, sig_id 3, track by_dst, ip 81.171.7.131
 suppress gen_id 126, sig_id 3, track by_src, ip 176.10.99.206
 suppress gen_id 126, sig_id 3, track by_dst, ip 176.10.99.206
 
-
 ## Suppress alerts for the small number of Tor relays using SMTP ports
 ## There really aren't many of these, so I'm tracking them individually.
 #(smtp) Attempted response buffer overflow
