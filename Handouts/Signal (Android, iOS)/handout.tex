@@ -1,0 +1,128 @@
+% DOCUMENT FORMATTING
+
+\documentclass[10.5pt,a4paper]{article} % Document type and paper size
+
+\usepackage[margin={1cm,1cm}]{geometry} % Margins 
+\usepackage{multicol} % For the two column layout
+\usepackage{graphicx} % For includegraphics / images command
+\usepackage{color} % Colour of fonts
+\usepackage[dvipsnames]{xcolor} % Colour of text boxes 
+\usepackage{parskip}  % For gaps between paragraphs 
+\usepackage{hyperref} % For working hyperlinks
+\usepackage{titlesec} % Needed to set section and subsection header spacing below
+\usepackage[T1]{fontenc} % Font used for main body + titles
+
+\setlength{\columnsep}{1cm} % Centeral gap between columns
+\graphicspath{ {images/} } % Graphics location
+\renewcommand*\rmdefault{pag} % Set font
+\pagenumbering{gobble} % Disables page numbering
+
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt} 
+% Spacing between different content types
+
+
+
+% DOCUMENT CONTENT
+
+\begin{document} % Document content below this point
+
+\begin{center}
+	\vspace{1cm}
+	\colorbox{Black}{
+		\begin{minipage}{18.5cm}
+			\begin{center}
+			\color{white}
+			\vspace{0.3cm}
+	             \includegraphics[width=1\textwidth]{organisationlogo.eps} % Organisation Logo
+	        \\[10pt]
+			     \textbf{{\LARGE CRYPTOPARTYNEWCASTLE.ORG}} % WEB URL
+			\vspace{0.3cm}
+			\end{center}
+		\end{minipage}
+	}
+\end{center}
+% Document Header
+
+
+\begin{center}
+\vspace{0.5cm}
+\textbf{{\LARGE How to Use Signal Messenger} % Leaflet Header
+\vspace{0.5cm}
+}\end{center}
+% Document Title
+
+
+\begin{multicols*}{2} % Two Column Layout
+
+Signal is a free-and-open-source messaging app for iPhone and Android that uses end-to-end encryption. It allows users to send encrypted text, picture, and video messages; and to have encrypted phone conversations between Signal users on any platform.
+
+\section*{Installation}
+To install Signal on your phone, search for `Signal' in the Google Play Store or Apple's App Store, and install the `Signal Private Messenger' application developed by Open Whisper Systems.
+
+\begin{center}
+	\includegraphics[width=0.40\textwidth]{playstore.png} % Embed image from the images folder
+\end{center}
+
+\section*{App Permissions}
+As an application which integrates tightly with your device, Signal will ask you to grant it a large number of permissions. This is perfectly normal, and you can read a breakdown covering why each permission is required at the following link:
+
+\begin{center}
+	\url{https://support.whispersystems.org/hc/en-us/articles/212535858} % Clickable URL.
+\end{center}
+
+When you are satisfied, confirm the permissions to allow the app to install.
+
+
+\section*{First Launch}
+When you first launch Signal, you will be asked to enter your phone number and click `Register'.
+
+You will be sent a confirmation message to your device via SMS. Signal should be able to see this text, and should automatically confirm your registration.
+
+
+\section*{Usage}
+In order to encrypt your conversations, the person you are contacting must also have Signal installed. If you try to send a message through the Signal app and they do not have Signal installed, it will send a standard text message. If you try to call the person, it will start a standard phone call.
+
+To get started with Signal, click the pencil icon in the lower-right corner of the screen:
+\begin{center}
+	\includegraphics[width=0.05\textwidth]{pencil_icon.png}
+\end{center}
+
+You should now see a list of all the Signal users in your contacts. You can also enter the phone number of Signal user who isn't in your contacts. When you select a contact, you will have the choice to either call them or send them a message.
+
+To start an encrypted call, select a contact and then click on the phone icon. You'll know that the contact can accept encrypted calls if you see a small padlock icon next to the phone icon:
+\begin{center}
+	\includegraphics[width=0.05\textwidth]{padlock_icon.png}
+\end{center}
+
+In order to send an encrypted text, picture, or video message: navigate to your contact list, click on the contact's name, and send your message.
+
+You can create a new group chat by clicking the overflow icon (the three dots in the upper-right corner of the screen), and selecting `New group'.
+
+
+\section*{Why not WhatsApp?}
+WhatsApp does offer strong encryption (in fact, it is exactly the same encryption system authored by the Signal team) but, unlike Signal, the application is not open source. This means that, unlike Signal, it is very difficult to verify that the application does what it claims to, or is properly secure.
+
+Facebook, who own WhatsApp, have also been condemned for sharing private user data between the two companies, leading the UK ICO to request that they halt the sharing, pending further investigation.
+
+
+\begin{center}
+	\vfill % Blank vertical space until box starts in bottom corner.
+	\colorbox{Black}{
+		\begin{minipage}{8cm}
+			\color{white}
+			\vspace{0.2cm}
+			\begin{center}
+				\textbf{{\Large Please visit \url{cryptopartynewcastle.org}\\for more information.}}
+			\end{center}
+			\vspace{0.2cm}
+		\end{minipage}
+	}
+\end{center}
+
+\vspace{0.75cm}
+
+\end{multicols*}
+
+\end{document}

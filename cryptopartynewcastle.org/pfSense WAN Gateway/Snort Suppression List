@@ -76,3 +76,8 @@ suppress gen_id 124, sig_id 3, track by_dst, ip 23.254.165.250
 suppress gen_id 124, sig_id 3, track by_src, ip 213.153.84.215
 suppress gen_id 124, sig_id 3, track by_dst, ip 213.153.84.215
 
+## This relay runs on SIP ports, triggering some alerts caused by
+## it sending Tor traffic instead of SIP traffic.
+#(spp_sip) URI is too long
+suppress gen_id 140, sig_id 3, track by_src, ip 37.59.61.192
+suppress gen_id 140, sig_id 3, track by_dst, ip 37.59.61.192
