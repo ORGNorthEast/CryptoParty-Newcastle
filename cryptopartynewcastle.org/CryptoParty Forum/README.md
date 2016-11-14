@@ -105,9 +105,6 @@ sudo setsebool -P httpd_can_network_connect true
 If you are not running a distribution with SELinux, the above command will not be necessary.
 
 
-#### Backups
-After installing Discourse, navigate to Settings > Backups and configure the frequency of your auto-backup. The defaults here are to take one backup per week and keep 5. This might be fine if you have a giant forum, but for a smaller forum there is no harm in setting the backup frequency to once a day, and setting the system to keep something like 30 previous backups.
-
 
 #### Install TripWire
 **Caution:** If you intend to use TripWire, it is recommended that your system does not deploy `unattended-upgrades`. System and package upgrades (as you might expect) modify a lot of files on disk and the use of unattended upgrades will lead to your TripWire reports of modified files being mostly false positives that have been changed by the update process, and you may end up missing vital clues leading to a genuine intrusion.
