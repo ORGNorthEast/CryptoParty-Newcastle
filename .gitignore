@@ -8,11 +8,7 @@
 *.idlk
 
 # Don't upload certain macOS tempfiles
-._*.ai
-._*.idlk
-._*.indd
-._*.pdf
-._*.png
+._*.*
 
 # Don't upload backup files for Tor Relay/pfSense
 hostname
