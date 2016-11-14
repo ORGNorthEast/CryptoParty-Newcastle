@@ -48,10 +48,30 @@ suppress gen_id 141, sig_id 2
 #(spp_ssh) Protocol mismatch
 suppress gen_id 128, sig_id 4
 
+## Suppress alerts for Tor relays running on SIP ports. No major concern,
+## since I'm not going to be running any SIP services myself.
+#(spp_sip) Empty request URI
+suppress gen_id 140, sig_id 2
+#(spp_sip) URI is too long
+suppress gen_id 140, sig_id 3
+#(spp_sip) Content length mismatch
+suppress gen_id 140, sig_id 18
+#(spp_sip) Method is unknown
+suppress gen_id 140, sig_id 26
+
 ## These alerts are to do with inspected HTTP traffic, but seem to
 ## get triggered a bit too easily leading to overzealous blocking.
 #(http_inspect) DOUBLE DECODING ATTACK
 suppress gen_id 119, sig_id 2
+
+## This one is generally a false positive triggered by real HTTPS clients
+## (ie. Not Tor relays) not fully following the RFC standards.
+#(spp_ssl) Invalid Client HELLO after Server HELLO Detected
+suppress gen_id 137, sig_id 1
+
+## I hate this one too, but using GitHub via SSH triggers this rule.
+#(spp_ssh) Challenge-Response Overflow exploit
+suppress gen_id 128, sig_id 1
 
 
 ############################################################
@@ -76,8 +96,3 @@ suppress gen_id 124, sig_id 3, track by_dst, ip 23.254.165.250
 suppress gen_id 124, sig_id 3, track by_src, ip 213.153.84.215
 suppress gen_id 124, sig_id 3, track by_dst, ip 213.153.84.215
 
-## This relay runs on SIP ports, triggering some alerts caused by
-## it sending Tor traffic instead of SIP traffic.
-#(spp_sip) URI is too long
-suppress gen_id 140, sig_id 3, track by_src, ip 37.59.61.192
-suppress gen_id 140, sig_id 3, track by_dst, ip 37.59.61.192
