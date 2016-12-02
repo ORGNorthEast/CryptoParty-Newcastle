@@ -196,29 +196,35 @@ sudo service stop tor
 
 Once we already have the ports tree downloaded, we will only need to run the following command in future:
 ```
-sudo portsnap fetch && sudo portsnap update
+sudo portsnap fetch update
 ```
 
 
 ### Future Maintenance - Checking for Vulnerabilities
-FreeBSD maintains a vulnerability database that should be checked regularly to ensure that there are no vulnerabilities in the software you have installed on your system.
-
-To check for known vulnerabilities with any of the optional software you have installed on your system, type:
+FreeBSD maintains a database of software with known vulnerabilities. You can check whether any of your installed ports match current security advisories with:
 ```
-sudo portaudit -F
+sudo pkg audit -F
 ```
 
 
 ### Future Maintenace - Updating All Outdated Ports
-Install `portupgrade` to help us with keeping software that we installed from ports up-to-date:
+Install `portmaster` to help us with keeping software that we installed from ports up-to-date:
 ```
-cd /usr/ports/sysutils/portupgrade
+cd /usr/ports/ports-mgmt/portmaster
 sudo make install clean
 ```
 
-After portupgrade is installed, update all packages with:
+After installing `portmaster`, you can now check for new versions of the optional software you have installed on your system by typing:
 ```
-sudo portsnap fetch && sudo portsnap update
-sudo portaudit -F
-sudo portupgrade -arR
+portmaster -L
+```
+
+You can now update all packages with:
+```
+sudo portmaster -a
+```
+
+For clarity, a complete upgrade command:
+```
+sudo portsnap fetch update && sudo portmaster -a
 ```
