@@ -73,6 +73,10 @@ suppress gen_id 137, sig_id 1
 #(spp_ssh) Challenge-Response Overflow exploit
 suppress gen_id 128, sig_id 1
 
+## This generic HTTP inspect rule seems to kill Windows Update a lot.
+#(http_inspect) HTTP RESPONSE HAS UTF CHARSET WHICH FAILED TO NORMALIZE
+suppress gen_id 120, sig_id 4
+
 
 ############################################################
 # Suppressions by Host (Only Specified Hosts Are Affected) #
