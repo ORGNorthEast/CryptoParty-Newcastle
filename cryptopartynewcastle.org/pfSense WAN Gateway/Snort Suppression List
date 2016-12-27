@@ -63,6 +63,8 @@ suppress gen_id 140, sig_id 26
 ## get triggered a bit too easily leading to overzealous blocking.
 #(http_inspect) DOUBLE DECODING ATTACK
 suppress gen_id 119, sig_id 2
+#(http_inspect) IIS UNICODE CODEPOINT ENCODING
+suppress gen_id 119, sig_id 7
 
 ## This one is generally a false positive triggered by real HTTPS clients
 ## (ie. Not Tor relays) not fully following the RFC standards.
