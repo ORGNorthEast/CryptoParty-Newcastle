@@ -1,4 +1,4 @@
-![CryptoParty-Newcastle](https://raw.githubusercontent.com/ajhaydock/CryptoParty-Newcastle/master/banner.png)
+![CryptoParty-Newcastle](https://raw.githubusercontent.com/ORGNorthEast/CryptoParty-Newcastle/master/Web%20Assets/banner.png)
 
 ### About
 These files and assets are things we have used to assist us in the planning and hosting of CryptoParty events in Newcastle-upon-Tyne, England.

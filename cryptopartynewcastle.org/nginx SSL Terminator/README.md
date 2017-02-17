@@ -1,4 +1,8 @@
-## Update & VMware Tools
+This SSL terminator is based on the Nginx webserver running as a reverse proxy.
+
+It is hosted inside a Docker container, running on CentOS 7.
+
+## Update VM & Install VMware Tools
 ```
 sudo yum clean all && sudo yum upgrade && sudo yum install open-vm-tools
 ```
@@ -21,5 +25,26 @@ getsebool -a | grep off
 getsebool -a | grep on
 ```
 
-## Building nginx
-Build with my CentOS buildscript for [BoringNginx](https://github.com/ajhaydock/BoringNginx).
+## Install Docker
+Remove any version of Docker installed from the CentOS repos (their version is way too old):
+```
+sudo yum remove docker && sudo yum autoremove
+```
+
+Install `yum-utils` to manage repos:
+```
+sudo yum install yum-utils
+```
+
+Add the Docker repo:
+```
+sudo yum-config-manager --add-repo https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
+```
+
+Update package cache and install Docker:
+```
+sudo yum makecache fast && sudo yum install docker-engine
+```
+
+## Deploying nginx from Docker Hub
+For info on this deployment, see [the README.md file in this repo](https://github.com/ajhaydock/Nginx-PageSpeed-OpenSSLBeta).

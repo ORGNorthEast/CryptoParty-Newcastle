@@ -1,0 +1,15 @@
+[Unit]
+Description=CryptoParty Newcastle SSL Terminator Docker Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker stop nginx
+ExecStartPre=-/usr/bin/docker rm nginx
+ExecStartPre=-/usr/bin/docker pull ajhaydock/nginx
+ExecStart=/usr/bin/docker run --cap-drop=all --name nginx -p 80:8080 -p 443:4434 -v /home/ssl/keys:/usr/share/nginx/keys:ro -v /home/ssl/nginx.conf:/etc/nginx/nginx.conf:ro ajhaydock/nginx
+ExecStop=/usr/bin/docker stop nginx
+
+[Install]
+WantedBy=multi-user.target

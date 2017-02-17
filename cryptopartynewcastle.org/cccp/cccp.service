@@ -1,0 +1,15 @@
+[Unit]
+Description=creativecommonscatpictures.com Docker Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker stop cccp
+ExecStartPre=-/usr/bin/docker rm cccp
+ExecStartPre=-/usr/bin/docker pull ajhaydock/cccp
+ExecStart=/usr/bin/docker run --cap-drop=all --name cccp -p 80:8080 ajhaydock/cccp
+ExecStop=/usr/bin/docker stop cccp
+
+[Install]
+WantedBy=multi-user.target
