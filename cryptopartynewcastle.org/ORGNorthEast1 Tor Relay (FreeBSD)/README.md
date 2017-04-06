@@ -7,11 +7,9 @@ An example graph, from [torstatus.blutmagie.de](http://torstatus.blutmagie.de/ne
 
 For the reasons listed above, I have decided to move the `ORGNorthEast` relay, which has existed for over a year on Linux based platforms (I've moved between Debian and CentOS a few times), to FreeBSD. In future I am also going to be looking into setting up relays on OpenBSD, and potentially OpenIndiana.
 
-
 ### Notes
 * Please note that to complete this guide you will need to create a VM with a relatively large filesystem (compiling packages from ports can take up a lot of space). A 32GB disk should do it.
 * You might also want to create your VM with plenty of cores available when you're doing the initial installation and building packages (will speed things up a lot). You can then return to just 1 vCPU afterwards if you prefer.
-
 
 ### Initial Installation & Update
 Install FreeBSD. Most of the defaults are probably fine, but I have included some notes below from my installation.
@@ -33,49 +31,31 @@ freebsd-update fetch install
 
 Reboot, and then log back into the `root` account via the console again.
 
-
-### Downloading the Ports Tree
-Perform the first download the ports tree (we use this command on a new system where `/usr/ports` is going to be blank):
+#### Setting up pkg
+In order to use the `pkg` package management tool, we need to install it. Fortunately, FreeBSD includes an automatic bootstrapping tool to install pkg. Simply try and execute `pkg` using:
 ```
-portsnap fetch extract
+/usr/sbin/pkg
 ```
+and FreeBSD will let you know that `pkg` is not installed and will need to be downloaded.
 
+**Note:** There is a bug present in the current version of VirtualBox (5.1.10, Dec 2016) that prevents `pkg` from bootstrapping correctly if a "bridged" virtual network adapter is used. To avoid this, make sure to use a NAT adapter if installing as a VirtualBox VM.
 
-### Maintenance as Non-Root User
-To maintain the system via SSH, we should really be using the non-root user we created during the setup, and the `sudo` command.
-
-First, we need to install `sudo` from our newly synced ports tree:
+#### Installing sudo & nano
 ```
-cd /usr/ports/security/sudo/
-make install clean
+pkg install sudo nano
 ```
 
-Let's install `nano` to make editing config files etc a bit easier:
-```
-cd /usr/ports/editors/nano/
-make install clean
-```
-
-Now we can add our user `relay` to the sudoers file:
-```
-nano /usr/local/etc/sudoers
-```
-
-We can give our `relay` user sudo privileges by adding the following line to the sudoers file:
+Now add your user to the `/usr/local/etc/sudoers` file with the following line (where `relay` is your username):
 ```
 relay ALL=(ALL) ALL
 ```
-
-After a reboot, you should now be able to log in as the non-root user via SSH and perform administrative tasks that way using `sudo`.
-
 
 ### Installing Tor
 **Note:** The FreeBSD equivalent of Linux's `/var/lib/tor` is `/var/db/tor`. This is where you can expect Tor stats, identity files, and hidden service keys to be stored.
 
 Install:
 ```
-cd /usr/ports/security/tor
-sudo make install clean
+pkg install tor
 ```
 
 Copy the sample config to the default config location (or you can base your config on the one in this directory):
@@ -118,7 +98,6 @@ We can also tail the logfile we specified in the `torrc`:
 sudo tailf /var/log/tor/notices.log
 ```
 
-
 ### Copying Tor Config from an Existing Machine
 If, like me, you can't be bothered to build `rsync` from ports, `scp` is probably the easiest option to move an existing relay's config to your new FreeBSD host. I did (from the machine containing the current config):
 
@@ -130,7 +109,6 @@ Always remember that if you copy an old config over `/var/db/tor` on your FreeBS
 ```
 sudo chown -R _tor:_tor /var/db/tor
 ```
-
 
 ### Installing Open-VM-Tools (VMware Guests Only)
 Run the following (make sure to turn of X11 support when the `ncurses` prompt gives you the option - might as well reduce the attack surface by not compiling in features we don't need).
@@ -151,12 +129,10 @@ vmware_guest_vmxnet_enable="YES"
 vmware_guestd_enable="YES"
 ```
 
-
 ### Installing Arm (Advanced Relay Monitor)
 Install [Arm](https://www.torproject.org/projects/arm.html.en) to monitor your Tor relay as follows:
 ```
-cd /usr/ports/security/arm
-sudo make install clean
+pkg install arm
 ```
 
 You will also need to install Python, as it does not seem to get built automatically when installing Arm:
@@ -169,7 +145,6 @@ You should now be able to run arm as follows:
 ```
 sudo -u _tor arm
 ```
-
 
 ### Future Maintenance - Backing-Up/Migrating Relay Identity
 It should suffice to back-up `/var/db/tor` if you want to preserve (or migrate) your relay. If you are migrating, the following files are the important ones:
@@ -184,47 +159,13 @@ It should suffice to back-up `/var/db/tor` if you want to preserve (or migrate) 
 /var/db/tor/keys/secret_onion_key_ntor
 ```
 
-
 ### Future Maintenance - Stopping Tor Service (Temporarily)
 ```
 sudo service stop tor
 ```
 
-
-### Future Maintenance - Updating the Ports Tree
-**Note:** The `portsnap fetch extract` command further up this page is for downloading the whole ports tree onto an empty system.
-
-Once we already have the ports tree downloaded, we will only need to run the following command in future:
-```
-sudo portsnap fetch update
-```
-
-
 ### Future Maintenance - Checking for Vulnerabilities
 FreeBSD maintains a database of software with known vulnerabilities. You can check whether any of your installed ports match current security advisories with:
 ```
 sudo pkg audit -F
-```
-
-
-### Future Maintenace - Updating All Outdated Ports
-Install `portmaster` to help us with keeping software that we installed from ports up-to-date:
-```
-cd /usr/ports/ports-mgmt/portmaster
-sudo make install clean
-```
-
-After installing `portmaster`, you can now check for new versions of the optional software you have installed on your system by typing:
-```
-portmaster -L
-```
-
-You can now update all packages with:
-```
-sudo portmaster -a
-```
-
-For clarity, a complete upgrade command:
-```
-sudo portsnap fetch update && sudo portmaster -a
 ```

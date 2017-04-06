@@ -1,3 +1,10 @@
+# SSL Terminator
+
+## Quick Status Checklist
+* [x] Auto-Updates Enabled (Security Only)
+* [x] NTP Configured
+
+## Notes
 This SSL terminator is based on the Nginx webserver running as a reverse proxy.
 
 It is hosted inside a Docker container, running on CentOS 7.

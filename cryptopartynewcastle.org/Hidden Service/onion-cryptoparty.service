@@ -1,0 +1,15 @@
+[Unit]
+Description=Onion Service Docker Container (ajhaydock on GitHub)
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker stop onion-cp
+ExecStartPre=-/usr/bin/docker rm onion-cp
+ExecStartPre=-/usr/bin/docker pull ajhaydock/onion
+ExecStart=/usr/bin/docker run --cap-drop=all --name onion-cp -v /home/ssl/cryptofxxpxdnelv.onion/nginx.conf:/etc/nginx/nginx.conf:ro -v /home/ssl/cryptofxxpxdnelv.onion/hiddenservice:/opt/onion/hiddenservice ajhaydock/onion
+ExecStop=/usr/bin/docker stop onion-cp
+
+[Install]
+WantedBy=multi-user.target

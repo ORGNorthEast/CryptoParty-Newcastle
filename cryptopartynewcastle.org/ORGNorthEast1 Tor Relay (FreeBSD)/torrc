@@ -19,7 +19,7 @@ DirPort 0.0.0.0:9030
 Exitpolicy reject *:*
 
 # Provide relay info
-Address cryptopartynewcastle.org # Specify DNS address of server, despite this not strictly being required.
+Address tor1.cryptopartynewcastle.org # Specify DNS address of server, despite this not strictly being required.
 Nickname ORGNorthEast1
 ContactInfo Alex Haydock <alex@alexhaydock.co.uk>
 MyFamily $FDF845FC159C0020E2BDDA120C30C5C5038F74B4,$A37B688506860287562C448A6F2BB965BCAB0355
